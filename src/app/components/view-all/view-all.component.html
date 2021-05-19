@@ -1,0 +1,16 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let expense of expenses">
+                <td>{{expense.key}}</td>
+                <td>{{expense.value}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

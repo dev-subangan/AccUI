@@ -1,0 +1,31 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<form [formGroup]="addExpenseForm" (ngSubmit)="addExpense()">
+    <!-- {{addExpenseForm.value | json}} -->
+    <fieldset>
+        <div class="form-group">
+            <input type="date" formControlName="date" class="form-control phone" placeholder="Date"
+                [class.is-invalid]="getDate.invalid && getDate.touched" (change)="updateSelectedDate()"/>
+        </div>
+        <div class="form-group">
+            <input type="text" formControlName="type" class="form-control phone" maxlength="28" placeholder="Type"
+                [class.is-invalid]="getType.invalid && getType.touched" />
+        </div>
+        <div class="form-group">
+            <input type="number" formControlName="amount" class="form-control phone" maxlength="28" placeholder="Amount"
+                [class.is-invalid]="getAmount.invalid && getAmount.touched" />
+        </div>
+        <div class="form-group">
+            <input type="text" formControlName="description" class="form-control phone" maxlength="28"
+                placeholder="Description" />
+        </div>
+        <div class="form-group">
+            <input type="text" formControlName="note" class="form-control phone" maxlength="28" placeholder="Note" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit" [disabled]="!addExpenseForm.valid">Add</button>
+        </div>
+    </fieldset>
+</form>
