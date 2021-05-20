@@ -1,7 +1,9 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { VERSION } from '@angular/material';
 import { ExpAddService } from '../../exp-add.service';
+import { NavItem } from './menu-item/nav-item';
 
 @Component({
   selector: 'app-add',
@@ -13,10 +15,16 @@ export class AddComponent implements OnInit {
   addExpenseForm: FormGroup;
   selectedDate;
 
-  constructor(private fb: FormBuilder, private expAddService: ExpAddService) { }
+  version = VERSION;
+  navItems: NavItem[];
+
+  constructor(private fb: FormBuilder, private expAddService: ExpAddService) { 
+    this.getAllTypes();
+  }
 
   ngOnInit(): void {
     this.inilizeForm(formatDate(new Date(), 'yyyy-MM-dd', 'en-US'));
+    
   }
 
   inilizeForm(date) {
@@ -55,6 +63,19 @@ export class AddComponent implements OnInit {
 
   updateSelectedDate(){
     this.expAddService.updateDate(this.getDate.value);
+  }
+
+  getAllTypes(){
+    this.expAddService.getAllTypes().subscribe(
+      response => this.navItems = response,
+      error => console.error('Error!', error)
+    );
+
+    console.log(this.navItems);
+  }
+
+  onSave(s:string){
+    console.log(s);
   }
 }
 

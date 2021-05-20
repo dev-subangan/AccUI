@@ -57,4 +57,8 @@ export class ExpAddService {
         })
       );
   }
+
+  public getAllTypes() {
+    return this.http.get<any>(this.baseUrl + "/type/all");
+  }
 }

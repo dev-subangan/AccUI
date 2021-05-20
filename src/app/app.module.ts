@@ -16,6 +16,8 @@ import { ViewYearComponent } from './components/view-year/view-year.component';
 import { ViewAllComponent } from './components/view-all/view-all.component';
 import { ExpenditureComponent } from './components/expenditure/expenditure.component';
 import { IncomeComponent } from './components/income/income.component';
+import { MenuItemComponent } from './components/add/menu-item/menu-item.component';
+import { MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/expenditure', pathMatch: 'full' },
@@ -32,7 +34,8 @@ const appRoutes: Routes = [
     ViewYearComponent,
     ViewAllComponent,
     ExpenditureComponent,
-    IncomeComponent
+    IncomeComponent,
+    MenuItemComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,10 @@ const appRoutes: Routes = [
     MatTabsModule,
     RouterModule.forRoot(
       appRoutes
-    )
+    ),
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [ExpAddService],
   bootstrap: [AppComponent]
