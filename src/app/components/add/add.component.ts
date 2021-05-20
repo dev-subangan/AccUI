@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ExpAddService } from '../exp-add.service';
+import { ExpAddService } from '../../exp-add.service';
 
 @Component({
   selector: 'app-add',

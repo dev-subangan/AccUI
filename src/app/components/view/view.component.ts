@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpAddService } from '../exp-add.service';
+import { ExpAddService } from '../../exp-add.service';
 import { formatDate } from '@angular/common';
 //https://namitamalik.github.io/Realtime-Update-in-Angular2/
 @Component({

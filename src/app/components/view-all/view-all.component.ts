@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ExpAddService } from '../exp-add.service';
+import { ExpAddService } from '../../exp-add.service';
 
 @Component({
   selector: 'app-view-all',
