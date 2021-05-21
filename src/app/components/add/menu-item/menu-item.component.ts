@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ExpAddService } from 'src/app/exp-add.service';
 import { NavItem } from './nav-item';
 
 @Component({
@@ -10,16 +11,22 @@ import { NavItem } from './nav-item';
 export class MenuItemComponent implements OnInit {
 
   @Input() items: NavItem[];
-  @ViewChild('childMenu', {static: true}) public childMenu;
+  @Input() parentId: number;
+  @ViewChild('childMenu', { static: true }) public childMenu;
 
-  constructor(public router: Router) {
+  constructor(public router: Router, private expAddService: ExpAddService) {
   }
 
   ngOnInit() {
   }
 
-  onSave(s:string){
+  onAddType(s: string) {
     console.log(s);
+    this.expAddService.CallComponentMethod(s);
+  }
+
+  addType(parentId) {
+    console.log("parent id ", parentId);
   }
 
 }

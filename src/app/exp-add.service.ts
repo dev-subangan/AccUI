@@ -18,6 +18,12 @@ export class ExpAddService {
     this._selectedDateSource.next(dateVal);
   }
 
+  public pushMessage = new Subject<any>();
+
+  CallComponentMethod(message) {
+    this.pushMessage.next(message);
+  }
+
   get refreshNeeded$() {
     return this._refreshNeeded$;
   }
@@ -25,6 +31,7 @@ export class ExpAddService {
   constructor(private http: HttpClient) { }
 
   public expenditureSave(expenditure) {
+    console.log(expenditure);
     return this.http.post<any>(this.baseUrl + "/save", expenditure)
       .pipe(
         tap(() => {

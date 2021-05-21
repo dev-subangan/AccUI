@@ -18,21 +18,23 @@ export class AddComponent implements OnInit {
   version = VERSION;
   navItems: NavItem[];
 
-  constructor(private fb: FormBuilder, private expAddService: ExpAddService) { 
+  constructor(private fb: FormBuilder, private expAddService: ExpAddService) {
     this.getAllTypes();
   }
 
   ngOnInit(): void {
+
+    this.expAddService.pushMessage.subscribe((x) => {
+      this.addExpenseForm.patchValue({ typeId: x });
+    });
     this.inilizeForm(formatDate(new Date(), 'yyyy-MM-dd', 'en-US'));
-    
   }
 
   inilizeForm(date) {
     this.addExpenseForm = this.fb.group({
       date: [date, Validators.required],
       amount: ['', [Validators.required, Validators.min(0)]],
-      type: ['', Validators.required],
-      description: [''],
+      typeId: ['', Validators.required],
       note: ['']
     });
   }
@@ -57,25 +59,21 @@ export class AddComponent implements OnInit {
     return this.addExpenseForm.get('amount');
   }
 
-  get getType() {
-    return this.addExpenseForm.get('type');
+  get getTypeId() {
+    return this.addExpenseForm.get('typeId');
   }
 
-  updateSelectedDate(){
+  updateSelectedDate() {
     this.expAddService.updateDate(this.getDate.value);
   }
 
-  getAllTypes(){
+  getAllTypes() {
     this.expAddService.getAllTypes().subscribe(
       response => this.navItems = response,
       error => console.error('Error!', error)
     );
 
     console.log(this.navItems);
-  }
-
-  onSave(s:string){
-    console.log(s);
   }
 }
 
