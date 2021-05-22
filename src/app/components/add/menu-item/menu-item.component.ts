@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { ExpAddService } from 'src/app/exp-add.service';
+import { AddTypeComponent } from '../../add-type/add-type.component';
 import { NavItem } from './nav-item';
 
 @Component({
@@ -14,19 +16,18 @@ export class MenuItemComponent implements OnInit {
   @Input() parentId: number;
   @ViewChild('childMenu', { static: true }) public childMenu;
 
-  constructor(public router: Router, private expAddService: ExpAddService) {
+  constructor(public router: Router, private expAddService: ExpAddService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
   }
 
-  onAddType(s: string) {
-    console.log(s);
+  onSelectType(s: string) {
     this.expAddService.CallComponentMethod(s);
   }
 
   addType(parentId) {
-    console.log("parent id ", parentId);
+    this.dialog.open(AddTypeComponent, { data: { parentId: parentId } });
   }
 
 }

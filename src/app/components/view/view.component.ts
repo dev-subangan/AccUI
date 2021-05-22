@@ -32,7 +32,6 @@ export class ViewComponent implements OnInit {
   }
 
   getExpenses(date) {
-    console.log(date);
     this.expAddService.getExpense(date).subscribe(
       response => this.expenses = response.data,
       error => console.error('Error!', error)
@@ -40,7 +39,6 @@ export class ViewComponent implements OnInit {
   }
 
   delete(id) {
-    console.log(id);
     this.expAddService.deleteExpense(id).subscribe(
       response => console.log(id + "deleted"),
       error => console.error('Error!', error)

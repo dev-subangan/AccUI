@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AddTypeComponent } from './components/add-type/add-type.component';
+import { MatDialog } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -22,17 +24,15 @@ export class ExpAddService {
 
   CallComponentMethod(message) {
     this.pushMessage.next(message);
-    this.getTypeByid(message);
   }
 
   get refreshNeeded$() {
     return this._refreshNeeded$;
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public dialog: MatDialog) { }
 
   public expenditureSave(expenditure) {
-    console.log(expenditure);
     return this.http.post<any>(this.baseUrl + "/save", expenditure)
       .pipe(
         tap(() => {
@@ -72,5 +72,14 @@ export class ExpAddService {
 
   public getTypeByid(id: number) {
     return this.http.get<any>(this.baseUrl + "/type/" + id);
+  }
+
+  public getremainingMasterTypes(typeId: number) {
+    return this.http.get<any>(this.baseUrl + "/type/remainingMasterType/" + typeId);
+  }
+
+  public saveType(type) {
+    console.log("ggggggggg");
+    return this.http.post<any>(this.baseUrl + "/type/addType", type);
   }
 }

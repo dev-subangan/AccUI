@@ -34,7 +34,6 @@ export class ViewMonthComponent implements OnInit {
   }
 
   getExpenses(month) {
-    console.log(month);
     this.expAddService.getExpenseMonth(month).subscribe(
       response => this.expenses = response.data,
       error => console.error('Error!', error)

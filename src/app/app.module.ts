@@ -17,7 +17,8 @@ import { ViewAllComponent } from './components/view-all/view-all.component';
 import { ExpenditureComponent } from './components/expenditure/expenditure.component';
 import { IncomeComponent } from './components/income/income.component';
 import { MenuItemComponent } from './components/add/menu-item/menu-item.component';
-import { MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, MatSelectModule } from '@angular/material';
+import { AddTypeComponent } from './components/add-type/add-type.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/expenditure', pathMatch: 'full' },
@@ -35,7 +36,8 @@ const appRoutes: Routes = [
     ViewAllComponent,
     ExpenditureComponent,
     IncomeComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    AddTypeComponent
   ],
   imports: [
     BrowserModule,
@@ -49,9 +51,14 @@ const appRoutes: Routes = [
     ),
     MatMenuModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [ExpAddService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AddTypeComponent
+  ]
 })
 export class AppModule { }

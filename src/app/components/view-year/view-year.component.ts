@@ -34,7 +34,6 @@ export class ViewYearComponent implements OnInit {
   }
 
   getExpenses(year) {
-    console.log("year : "+year);
     this.expAddService.getExpenseYear(year).subscribe(
       response => this.expenses = response.data,
       error => console.error('Error!', error)

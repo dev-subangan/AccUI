@@ -47,7 +47,6 @@ export class AddComponent implements OnInit {
   }
 
   addExpense() {
-    console.log(this.addExpenseForm.value);
     this.expAddService.expenditureSave(this.addExpenseForm.value).subscribe(
       response => console.log('Success!', response),
       error => console.error('Error!', error)
@@ -80,8 +79,6 @@ export class AddComponent implements OnInit {
       response => this.navItems = response,
       error => console.error('Error!', error)
     );
-
-    console.log(this.navItems);
   }
 }
 

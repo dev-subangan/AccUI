@@ -2,14 +2,14 @@
   <span *ngFor="let child of items">
     <!-- Handle branch node menu items -->
     <span *ngIf="child.subTypes && child.subTypes.length > 0">
-      <button mat-menu-item color="primary" [matMenuTriggerFor]="menu.childMenu" (click)="onAddType(child.id)">
+      <button mat-menu-item color="primary" [matMenuTriggerFor]="menu.childMenu" (click)="onSelectType(child.id)">
         <span>{{child.name}}</span>
       </button>
       <app-menu-item #menu [items]="child.subTypes" [parentId]="child.id"></app-menu-item>
     </span>
     <!-- Handle leaf node menu items -->
     <span *ngIf="!child.subTypes || child.subTypes.length === 0">
-      <button mat-menu-item (click)="onAddType(child.id)">
+      <button mat-menu-item (click)="onSelectType(child.id)">
         <span>{{child.name}}</span>
       </button>
     </span>

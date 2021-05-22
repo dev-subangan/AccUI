@@ -1,0 +1,13 @@
+<p>{{parentTypeName}}</p>
+
+<form [formGroup]="typeForm" (ngSubmit)="saveType()">
+
+    <mat-form-field appearance="fill">
+        <mat-select formControlName="masterTypeId" required>
+            <mat-option [value]="masterType.id" *ngFor="let masterType of masterTypes">{{ masterType.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-button color="primary" type="submit" [disabled]="!typeForm.valid">Save</button>
+</form>
