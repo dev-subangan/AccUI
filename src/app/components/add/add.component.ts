@@ -14,6 +14,8 @@ export class AddComponent implements OnInit {
 
   addExpenseForm: FormGroup;
   selectedDate;
+  typeId: number;
+  typeValue: string = "Select expenditure";
 
   version = VERSION;
   navItems: NavItem[];
@@ -25,9 +27,14 @@ export class AddComponent implements OnInit {
   ngOnInit(): void {
 
     this.expAddService.pushMessage.subscribe((x) => {
+      this.typeId = x;
+      this.expAddService.getTypeByid(this.typeId).subscribe((x) => {
+        this.typeValue = x.data;
+      });
       this.addExpenseForm.patchValue({ typeId: x });
     });
     this.inilizeForm(formatDate(new Date(), 'yyyy-MM-dd', 'en-US'));
+
   }
 
   inilizeForm(date) {
@@ -49,6 +56,7 @@ export class AddComponent implements OnInit {
     this.selectedDate = this.getDate.value;
     this.addExpenseForm.reset();
     this.inilizeForm(this.selectedDate);
+    this.typeValue = "Select expenditure";
   }
 
   get getDate() {

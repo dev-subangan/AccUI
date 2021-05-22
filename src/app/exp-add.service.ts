@@ -22,6 +22,7 @@ export class ExpAddService {
 
   CallComponentMethod(message) {
     this.pushMessage.next(message);
+    this.getTypeByid(message);
   }
 
   get refreshNeeded$() {
@@ -67,5 +68,9 @@ export class ExpAddService {
 
   public getAllTypes() {
     return this.http.get<any>(this.baseUrl + "/type/all");
+  }
+
+  public getTypeByid(id: number) {
+    return this.http.get<any>(this.baseUrl + "/type/" + id);
   }
 }
