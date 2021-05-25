@@ -14,6 +14,8 @@ export class ExpAddService {
 
   private _refreshNeeded$ = new Subject<void>();
 
+  private _refreshType$ = new Subject<void>();
+
   private _selectedDateSource = new Subject<String>();
   selectedDate$ = this._selectedDateSource.asObservable();
   updateDate(dateVal) {
@@ -28,6 +30,9 @@ export class ExpAddService {
 
   get refreshNeeded$() {
     return this._refreshNeeded$;
+  }
+  get refreshType$() {
+    return this._refreshType$;
   }
 
   constructor(private http: HttpClient, public dialog: MatDialog) { }
@@ -79,7 +84,10 @@ export class ExpAddService {
   }
 
   public saveType(type) {
-    console.log("ggggggggg");
-    return this.http.post<any>(this.baseUrl + "/type/addType", type);
+    return this.http.post<any>(this.baseUrl + "/type/addType", type).pipe(
+      tap(() => {
+        this._refreshType$.next();
+      })
+    );
   }
 }

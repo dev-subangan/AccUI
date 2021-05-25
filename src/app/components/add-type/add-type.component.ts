@@ -22,9 +22,11 @@ export class AddTypeComponent implements OnInit, OnDestroy {
 
   constructor(private readonly fb: FormBuilder, private expAddService: ExpAddService, private readonly changeDetectorRef: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) data) {
     this.parentTypeId = data.parentId;
-    this.expAddService.getTypeByid(data.parentId).subscribe((x) => {
-      this.parentTypeName = x.data;
-    });
+    if (data.parentId) {
+      this.expAddService.getTypeByid(data.parentId).subscribe((x) => {
+        this.parentTypeName = x.data;
+      });
+    }
   }
 
   ngOnInit() {

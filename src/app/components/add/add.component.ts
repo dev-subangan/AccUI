@@ -20,9 +20,7 @@ export class AddComponent implements OnInit {
   version = VERSION;
   navItems: NavItem[];
 
-  constructor(private fb: FormBuilder, private expAddService: ExpAddService) {
-    this.getAllTypes();
-  }
+  constructor(private fb: FormBuilder, private expAddService: ExpAddService) { }
 
   ngOnInit(): void {
 
@@ -34,6 +32,13 @@ export class AddComponent implements OnInit {
       this.addExpenseForm.patchValue({ typeId: x });
     });
     this.inilizeForm(formatDate(new Date(), 'yyyy-MM-dd', 'en-US'));
+
+    this.expAddService.refreshType$
+      .subscribe(() => {
+        this.getAllTypes();
+      })
+
+    this.getAllTypes();
 
   }
 
