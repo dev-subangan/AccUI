@@ -2,7 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VERSION } from '@angular/material';
-import { ExpAddService } from '../../exp-add.service';
+import { ExpAddService } from 'src/app/services/exp-add.service';
 import { NavItem } from './menu-item/nav-item';
 
 @Component({

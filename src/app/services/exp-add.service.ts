@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AddTypeComponent } from './components/add-type/add-type.component';
+
 import { MatDialog } from '@angular/material';
 
 @Injectable({
@@ -81,6 +81,10 @@ export class ExpAddService {
 
   public getremainingMasterTypes(typeId: number) {
     return this.http.get<any>(this.baseUrl + "/type/remainingMasterType/" + typeId);
+  }
+
+  public saveMasterType(masterType: string) {
+    return this.http.post<any>(this.baseUrl + "/type/addMasterType/", { "masterType": masterType });
   }
 
   public saveType(type) {

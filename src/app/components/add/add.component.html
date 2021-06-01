@@ -16,15 +16,15 @@
     <div class="form-group">
       <span *ngFor="let item of navItems">
         <!-- Handle branch node buttons here -->
-        <span *ngIf="item.subTypes && item.subTypes.length > 0">
-          <button type="button" mat-raised-button color="primary" [matMenuTriggerFor]="menu.childMenu">
-            {{typeValue}}
-            <mat-icon>expand_more</mat-icon>
-          </button>
-          <app-menu-item #menu [items]="item.subTypes" [parentId]="item.id"></app-menu-item>
-        </span>
+        <!-- <span *ngIf="item.masterTypes && item.masterTypes.length > 0"> -->
+        <button type="button" mat-raised-button color="primary" [matMenuTriggerFor]="menu.childMenu">
+          {{typeValue}}
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <app-menu-item #menu [items]="item.masterTypes" [parentId]="item.id"></app-menu-item>
+        <!-- </span> -->
         <!-- Leaf node buttons here -->
-        <!-- <span *ngIf="!item.subTypes || item.subTypes.length === 0">
+        <!-- <span *ngIf="!item.masterTypes || item.masterTypes.length === 0">
           <button mat-button color="primary" (click)="onSave(item.name)">
             {{item.name}}
           </button>

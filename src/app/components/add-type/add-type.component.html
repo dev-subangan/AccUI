@@ -1,13 +1,17 @@
-<p>{{parentTypeName}}</p>
-
 <form [formGroup]="typeForm" (ngSubmit)="saveType()">
 
+    <label>{{parentTypeName}}</label>
     <mat-form-field appearance="fill">
-        <mat-select formControlName="masterTypeId" required>
-            <mat-option [value]="masterType.id" *ngFor="let masterType of masterTypes">{{ masterType.name }}
+        <input matInput type="text" id="typeName" formControlName="masterTypeName">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-select formControlName="masterTypeId">
+            <mat-option [value]="masterType.name" *ngFor="let masterType of masterTypes">{{ masterType.name }}
             </mat-option>
         </mat-select>
     </mat-form-field>
 
-    <button mat-button color="primary" type="submit" [disabled]="!typeForm.valid">Save</button>
+    <button mat-button color="primary" type="submit" [disabled]="!typeForm.valid" mat-dialog-close>Save</button>
+    <button mat-button type="button" mat-dialog-close>Cancel</button>
 </form>

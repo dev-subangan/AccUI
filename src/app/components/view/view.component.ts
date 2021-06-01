@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpAddService } from '../../exp-add.service';
 import { formatDate } from '@angular/common';
+import { ExpAddService } from 'src/app/services/exp-add.service';
 //https://namitamalik.github.io/Realtime-Update-in-Angular2/
 @Component({
   selector: 'app-view',

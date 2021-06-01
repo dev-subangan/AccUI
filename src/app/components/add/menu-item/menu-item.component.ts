@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { ExpAddService } from 'src/app/exp-add.service';
+import { ExpAddService } from 'src/app/services/exp-add.service';
 import { AddTypeComponent } from '../../add-type/add-type.component';
 import { NavItem } from './nav-item';
 

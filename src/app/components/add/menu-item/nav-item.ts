@@ -1,6 +1,5 @@
 export interface NavItem {
-    id: number;
-    name: string;
-    subTypes?: NavItem[];
-  }
-  
+  id: number;
+  name: string;
+  masterTypes?: NavItem[];
+}
