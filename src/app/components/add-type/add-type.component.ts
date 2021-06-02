@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { MasterType } from 'src/app/models/models';
 import { ExpAddService } from 'src/app/services/exp-add.service';
 
@@ -21,7 +21,15 @@ export class AddTypeComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public dialogRef: MatDialogRef<AddTypeComponent>, private readonly fb: FormBuilder, private expAddService: ExpAddService, private readonly changeDetectorRef: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) data) {
+  masterTypeNames: string[] = [];
+  filteredOptions: Observable<string[]>;
+
+  constructor(
+    public dialogRef: MatDialogRef<AddTypeComponent>,
+    private readonly fb: FormBuilder,
+    private expAddService: ExpAddService,
+    private readonly changeDetectorRef: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) data) {
+
     this.parentTypeId = data.parentId;
     if (data.parentId) {
       this.expAddService.getTypeByid(data.parentId).subscribe((x) => {
@@ -33,10 +41,11 @@ export class AddTypeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadProducts();
     this.inilizeForm();
+    this.autocomplete();
   }
+
   inilizeForm() {
     this.typeForm = this.fb.group({
-      masterTypeId: [''],
       masterTypeName: ['', Validators.required]
     });
   }
@@ -45,6 +54,10 @@ export class AddTypeComponent implements OnInit, OnDestroy {
     this.expAddService.getremainingMasterTypes(this.parentTypeId).pipe(takeUntil(this.destroy$)).subscribe(
       data => {
         this.masterTypes = data.data;
+        for (let i = 0; i < this.masterTypes.length; i++) {
+          this.masterTypeNames.push(this.masterTypes[i].name);
+        }
+        this.autocomplete();
         this.changeDetectorRef.markForCheck();
       },
       error => {
@@ -52,7 +65,7 @@ export class AddTypeComponent implements OnInit, OnDestroy {
       });
   }
 
-  saveType() {
+  saveTypeAndMasterType() {
 
     let masterTypeId: number;
     for (let i = 0; i < this.masterTypes.length; i++) {
@@ -80,6 +93,19 @@ export class AddTypeComponent implements OnInit, OnDestroy {
       response => console.log('Success!', response),
       error => console.error('Error!', error)
     );
+  }
+
+  autocomplete() {
+    this.filteredOptions = this.typeForm.get("masterTypeName").valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.masterTypeNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   ngOnDestroy() {

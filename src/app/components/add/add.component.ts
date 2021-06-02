@@ -27,7 +27,7 @@ export class AddComponent implements OnInit {
     this.expAddService.pushMessage.subscribe((x) => {
       this.typeId = x;
       this.expAddService.getTypeByid(this.typeId).subscribe((x) => {
-        this.typeValue = x.data;
+        this.typeValue = x.data.slice(0, -1);
       });
       this.addExpenseForm.patchValue({ typeId: x });
     });
