@@ -4,12 +4,12 @@ import { MatSnackBar } from "@angular/material";
 @Injectable({
     providedIn: 'root'
 })
-export class ExpAddService {
+export class AccUtillService {
 
     constructor(private readonly snackBar: MatSnackBar) { }
 
     public showNotification(message: string) {
-        this.snackBar.open(message, 'Dismiss', { duration: 2000 });
+        this.snackBar.open(message, 'Dismiss', { duration: 1000 });
     }
 
 }

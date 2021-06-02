@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VERSION } from '@angular/material';
+import { AccUtillService } from 'src/app/services/acc-utill.service';
 import { ExpAddService } from 'src/app/services/exp-add.service';
 import { NavItem } from './menu-item/nav-item';
 
@@ -20,7 +21,9 @@ export class AddComponent implements OnInit {
   version = VERSION;
   navItems: NavItem[];
 
-  constructor(private fb: FormBuilder, private expAddService: ExpAddService) { }
+  constructor(private fb: FormBuilder,
+    private expAddService: ExpAddService,
+    private readonly accUtill: AccUtillService) { }
 
   ngOnInit(): void {
 
@@ -53,7 +56,7 @@ export class AddComponent implements OnInit {
 
   addExpense() {
     this.expAddService.expenditureSave(this.addExpenseForm.value).subscribe(
-      response => console.log('Success!', response),
+      response => this.accUtill.showNotification("Expenditure Saved"),
       error => console.error('Error!', error)
     );
 

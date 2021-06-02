@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { MatDialog } from '@angular/material';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -35,7 +33,7 @@ export class ExpAddService {
     return this._refreshType$;
   }
 
-  constructor(private http: HttpClient, public dialog: MatDialog) { }
+  constructor(private http: HttpClient) { }
 
   public expenditureSave(expenditure) {
     return this.http.post<any>(this.baseUrl + "/save", expenditure)

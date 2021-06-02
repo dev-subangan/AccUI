@@ -16,14 +16,16 @@ export class MenuItemComponent implements OnInit {
   @Input() parentId: number;
   @ViewChild('childMenu', { static: true }) public childMenu;
 
-  constructor(public router: Router, private expAddService: ExpAddService, public dialog: MatDialog) {
-  }
+  constructor(
+    public router: Router,
+    private expAddService: ExpAddService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
-  onSelectType(s: string) {
-    this.expAddService.CallComponentMethod(s);
+  onSelectType(typeId: string) {
+    this.expAddService.CallComponentMethod(typeId);
   }
 
   addType(parentId) {

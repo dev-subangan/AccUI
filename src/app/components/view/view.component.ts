@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ExpAddService } from 'src/app/services/exp-add.service';
+import { AccUtillService } from 'src/app/services/acc-utill.service';
 //https://namitamalik.github.io/Realtime-Update-in-Angular2/
 @Component({
   selector: 'app-view',
@@ -12,7 +13,9 @@ export class ViewComponent implements OnInit {
   public expenses;
   public selectedDateVal = formatDate(new Date(), 'yyyy-MM-dd', 'en-US').toString();
 
-  constructor(private expAddService: ExpAddService) { }
+  constructor(
+    private expAddService: ExpAddService,
+    private readonly accUtill: AccUtillService) { }
 
   ngOnInit() {
 
@@ -40,7 +43,7 @@ export class ViewComponent implements OnInit {
 
   delete(id) {
     this.expAddService.deleteExpense(id).subscribe(
-      response => console.log(id + "deleted"),
+      response => this.accUtill.showNotification("Expenditure deleted"),
       error => console.error('Error!', error)
     );
   }

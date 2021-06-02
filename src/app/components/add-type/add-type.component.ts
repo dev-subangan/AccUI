@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { MasterType } from 'src/app/models/models';
+import { AccUtillService } from 'src/app/services/acc-utill.service';
 import { ExpAddService } from 'src/app/services/exp-add.service';
 
 @Component({
@@ -28,7 +29,8 @@ export class AddTypeComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AddTypeComponent>,
     private readonly fb: FormBuilder,
     private expAddService: ExpAddService,
-    private readonly changeDetectorRef: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) data) {
+    private readonly changeDetectorRef: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) data,
+    private readonly accUtill: AccUtillService) {
 
     this.parentTypeId = data.parentId;
     if (data.parentId) {
@@ -78,6 +80,7 @@ export class AddTypeComponent implements OnInit, OnDestroy {
     if (masterTypeId === null || masterTypeId === undefined) {
       this.expAddService.saveMasterType(this.typeForm.get("masterTypeName").value).subscribe(
         response => {
+          this.accUtill.showNotification("Master type saved");
           this.savingType(response.data.id);
         },
         error => console.error('Error!', error)
@@ -90,7 +93,10 @@ export class AddTypeComponent implements OnInit, OnDestroy {
 
   private savingType(masterTypeId: number) {
     this.expAddService.saveType({ "parentTypeId": this.parentTypeId, "masterTypeId": masterTypeId }).subscribe(
-      response => console.log('Success!', response),
+      response => {
+        this.expAddService.CallComponentMethod(response.data);
+        this.accUtill.showNotification("Type saved");
+      },
       error => console.error('Error!', error)
     );
   }
