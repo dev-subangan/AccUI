@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddComponent } from './components/add/add.component';
+import { ExpenditureComponent } from './components/expenditure/expenditure.component';
+import { IncomeComponent } from './components/income/income.component';
 
 
 const routes: Routes = [
-  // {path:"",redirectTo:"save",pathMatch:"full"},
-  // {path:"save",component:AddComponent}
+  { path: '', redirectTo: '/expenditure', pathMatch: 'full' },
+  { path: 'expenditure', component: ExpenditureComponent },
+  { path: 'income', component: IncomeComponent }
 ];
 
 @NgModule({

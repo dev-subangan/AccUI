@@ -1,21 +1,29 @@
 <div class="container">
-  <table class="table table-striped">
+  <table class="table table-striped" [class]="classExpression">
     <thead>
       <tr>
-        <!-- <th>Date</th> -->
-        <th>Type</th>
+        <th *ngIf="isDayView">Type</th>
+        <th *ngIf="!isDayView">{{viewTypeName}}</th>
+
         <th>Amount</th>
-        <th>Note</th>
-        <th></th>
+
+        <th *ngIf="isDayView">Note</th>
+        <th *ngIf="isDayView"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let expense of expenses">
-        <!-- <td>{{expense.date | date : 'mediumDate'}}</td> -->
-        <td>{{expense.type}}</td>
-        <td>{{expense.amount}}</td>
-        <td>{{expense.note}}</td>
-        <td><button class="btn" (click)="delete(expense.id)"><i class="material-icons">delete</i></button></td>
+
+        <td *ngIf="isDayView">{{expense.type}}</td>
+        <td *ngIf="isMonthView">{{expense.key | date : 'mediumDate'}}</td>
+        <td *ngIf="isYearView || isAllView">{{expense.key}}</td>
+
+        <td *ngIf="isDayView">{{expense.amount}}</td>
+        <td *ngIf="!isDayView">{{expense.value}}</td>
+
+        <td *ngIf="isDayView">{{expense.note}}</td>
+        <td *ngIf="isDayView"><button class="btn" (click)="delete(expense.id)"><i
+              class="material-icons">delete</i></button></td>
       </tr>
     </tbody>
   </table>
