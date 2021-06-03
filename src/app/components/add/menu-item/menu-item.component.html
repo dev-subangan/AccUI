@@ -1,12 +1,14 @@
 <mat-menu #childMenu="matMenu" [overlapTrigger]="false">
-  <span *ngFor="let child of items">
+  <span *ngFor="let expenditureType of expenditureTypes">
     <!-- Handle branch node menu items -->
     <!-- <span *ngIf="child.masterTypes && child.masterTypes.length > 0"> -->
     <span>
-      <button mat-menu-item color="primary" [matMenuTriggerFor]="menu.childMenu" (click)="onSelectType(child.id)">
-        <span>{{child.name}}</span>
+      <button mat-menu-item color="primary" [matMenuTriggerFor]="menu.childMenu"
+        (click)="onSelectType(expenditureType.id)">
+        <span>{{expenditureType.name}}</span>
       </button>
-      <app-menu-item #menu [items]="child.masterTypes" [parentId]="child.id"></app-menu-item>
+      <app-menu-item #menu [expenditureTypes]="expenditureType.subTypes" [parentId]="expenditureType.id">
+      </app-menu-item>
     </span>
     <!-- Handle leaf node menu items -->
     <!-- <span *ngIf="!child.masterTypes || child.masterTypes.length === 0">

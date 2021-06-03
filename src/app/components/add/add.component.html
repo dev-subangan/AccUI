@@ -3,7 +3,6 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 <form [formGroup]="addExpenseForm" (ngSubmit)="addExpense()">
-  <!-- {{addExpenseForm.value | json}} -->
   <fieldset>
     <div class="form-group">
       <input type="date" formControlName="date" class="form-control phone" placeholder="Date"
@@ -14,14 +13,15 @@
         [class.is-invalid]="getTypeId.invalid && getTypeId.touched" hidden />
     </div>
     <div class="form-group">
-      <span *ngFor="let item of navItems">
+      <span *ngFor="let expenditureType of expenditureTypes">
         <!-- Handle branch node buttons here -->
         <!-- <span *ngIf="item.masterTypes && item.masterTypes.length > 0"> -->
         <button type="button" mat-raised-button color="primary" [matMenuTriggerFor]="menu.childMenu">
           {{typeValue}}
           <mat-icon>expand_more</mat-icon>
         </button>
-        <app-menu-item #menu [items]="item.masterTypes" [parentId]="item.id"></app-menu-item>
+        <app-menu-item #menu [expenditureTypes]="expenditureType.subTypes" [parentId]="expenditureType.id">
+        </app-menu-item>
         <!-- </span> -->
         <!-- Leaf node buttons here -->
         <!-- <span *ngIf="!item.masterTypes || item.masterTypes.length === 0">

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { ExpenditureType } from 'src/app/models/models';
 import { ExpAddService } from 'src/app/services/exp-add.service';
 import { AddTypeComponent } from '../../add-type/add-type.component';
-import { NavItem } from './nav-item';
 
 @Component({
   selector: 'app-menu-item',
@@ -12,7 +12,7 @@ import { NavItem } from './nav-item';
 })
 export class MenuItemComponent implements OnInit {
 
-  @Input() items: NavItem[];
+  @Input() expenditureTypes: ExpenditureType[];
   @Input() parentId: number;
   @ViewChild('childMenu', { static: true }) public childMenu;
 

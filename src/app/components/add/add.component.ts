@@ -2,9 +2,10 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VERSION } from '@angular/material';
+import { ExpenditureType } from 'src/app/models/models';
 import { AccUtillService } from 'src/app/services/acc-utill.service';
 import { ExpAddService } from 'src/app/services/exp-add.service';
-import { NavItem } from './menu-item/nav-item';
+
 
 @Component({
   selector: 'app-add',
@@ -19,7 +20,7 @@ export class AddComponent implements OnInit {
   typeValue: string = "Select expenditure";
 
   version = VERSION;
-  navItems: NavItem[];
+  expenditureTypes: ExpenditureType[];
 
   constructor(private fb: FormBuilder,
     private expAddService: ExpAddService,
@@ -84,7 +85,7 @@ export class AddComponent implements OnInit {
 
   getAllTypes() {
     this.expAddService.getAllTypes().subscribe(
-      response => this.navItems = response,
+      response => this.expenditureTypes = response,
       error => console.error('Error!', error)
     );
   }

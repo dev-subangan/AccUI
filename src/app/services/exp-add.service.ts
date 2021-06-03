@@ -60,7 +60,7 @@ export class ExpAddService {
     return this.http.get<any>(this.baseUrl + "/getAll");
   }
 
-  public deleteExpense(id) {
+  public deleteExpense(id: number) {
     return this.http.get<any>(this.baseUrl + "/delete/" + id)
       .pipe(
         tap(() => {

@@ -1,10 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ExpAddService } from 'src/app/services/exp-add.service';
 import { AccUtillService } from 'src/app/services/acc-utill.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 //https://namitamalik.github.io/Realtime-Update-in-Angular2/
+
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -12,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ViewComponent implements OnInit, OnDestroy {
 
-  @Input() viewType: string = '';
+  @Input() viewType: string;
   isDayView: boolean = false;
   isMonthView: boolean = false;
   isYearView: boolean = false;
@@ -29,97 +30,97 @@ export class ViewComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private expAddService: ExpAddService,
-    private readonly accUtill: AccUtillService) { }
+    private readonly expAddService: ExpAddService,
+    private readonly accUtill: AccUtillService,
+    private readonly changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
 
-    if (this.viewType === 'exp-day') {
-      this.classExpression = 'dayTable';
-      this.isDayView = true;
-    } else if (this.viewType === 'exp-month') {
-      this.classExpression = 'monthTable';
-      this.isMonthView = true;
-      this.viewTypeName = 'Day';
-    } else if (this.viewType === 'exp-year') {
-      this.classExpression = 'yearTable';
-      this.isYearView = true;
-      this.viewTypeName = 'Month';
-    } else if (this.viewType === 'exp-all') {
-      this.classExpression = 'allTable';
-      this.isAllView = true;
-      this.viewTypeName = 'Year';
-    }
+    this.loadInitialData();
 
     this.expAddService.selectedDate$
       .subscribe(
         dateVal => {
           if (this.viewType === 'exp-day') {
             this.selectedDateVal = dateVal.toString();
-            this.getDayExpenses(this.selectedDateVal);
+            this.getExpenses(this.selectedDateVal);
           } else if (this.viewType === 'exp-month' && this.selectedMonthVal !== dateVal.toString().substr(0, 7)) {
             this.selectedMonthVal = dateVal.toString().substr(0, 7);
-            this.getMonthExpenses(this.selectedMonthVal);
+            this.getExpenses(this.selectedMonthVal);
           } else if (this.viewType === 'exp-year' && this.selectedYearVal !== dateVal.toString().substr(0, 4)) {
             this.selectedYearVal = dateVal.toString().substr(0, 4);
-            this.getYearExpenses(this.selectedYearVal);
+            this.getExpenses(this.selectedYearVal);
           }
         })
 
     this.expAddService.refreshNeeded$
       .subscribe(() => {
         if (this.viewType === 'exp-day') {
-          this.getDayExpenses(this.selectedDateVal);
+          this.getExpenses(this.selectedDateVal);
         } else if (this.viewType === 'exp-month') {
-          this.getMonthExpenses(this.selectedMonthVal);
+          this.getExpenses(this.selectedMonthVal);
         } else if (this.viewType === 'exp-year') {
-          this.getYearExpenses(this.selectedYearVal);
+          this.getExpenses(this.selectedYearVal);
         } else if (this.viewType === 'exp-all') {
-          this.getAllExpenses();
+          this.getExpenses();
         }
       })
 
-    if (this.viewType === 'exp-day') {
-      this.getDayExpenses(this.selectedDateVal);
-    } else if (this.viewType === 'exp-month') {
-      this.getMonthExpenses(this.selectedMonthVal);
-    } else if (this.viewType === 'exp-year') {
-      this.getYearExpenses(this.selectedYearVal);
-    } else if (this.viewType === 'exp-all') {
-      this.getAllExpenses();
+  }
+
+  private loadInitialData() {
+    switch (this.viewType) {
+      case 'exp-day':
+        this.classExpression = 'dayTable';
+        this.isDayView = true;
+        this.getExpenses(this.selectedDateVal);
+        break;
+      case 'exp-month':
+        this.classExpression = 'monthTable';
+        this.isMonthView = true;
+        this.viewTypeName = 'Day';
+        this.getExpenses(this.selectedMonthVal);
+        break;
+      case 'exp-year':
+        this.classExpression = 'yearTable';
+        this.isYearView = true;
+        this.viewTypeName = 'Month';
+        this.getExpenses(this.selectedYearVal);
+        break;
+      case 'exp-all':
+        this.classExpression = 'allTable';
+        this.isAllView = true;
+        this.viewTypeName = 'Year';
+        this.getExpenses();
+        break;
+      default: break;
     }
-
   }
 
-  getDayExpenses(date) {
-    this.expAddService.getExpense(date).pipe(takeUntil(this.destroy$)).subscribe(
-      response => this.expenses = response.data,
+  getExpenses(date?: string) {
+    this.getExpensesMethod()(date).pipe(takeUntil(this.destroy$)).subscribe(
+      response => {
+        this.expenses = response.data
+        this.changeDetectorRef.markForCheck();
+      },
       error => console.error('Error!', error)
     );
   }
 
-  getMonthExpenses(month) {
-    this.expAddService.getExpenseMonth(month).subscribe(
-      response => this.expenses = response.data,
-      error => console.error('Error!', error)
-    );
+  private getExpensesMethod = () => (s: string) => {
+    switch (this.viewType) {
+      case 'exp-day':
+        return this.expAddService.getExpense(s);
+      case 'exp-month':
+        return this.expAddService.getExpenseMonth(s);
+      case 'exp-year':
+        return this.expAddService.getExpenseYear(s);
+      case 'exp-all':
+        return this.expAddService.getExpenseAll();
+    }
   }
 
-  getYearExpenses(year) {
-    this.expAddService.getExpenseYear(year).subscribe(
-      response => this.expenses = response.data,
-      error => console.error('Error!', error)
-    );
-  }
-
-  getAllExpenses() {
-    this.expAddService.getExpenseAll().subscribe(
-      response => this.expenses = response.data,
-      error => console.error('Error!', error)
-    );
-  }
-
-  delete(id) {
+  delete(id: number) {
     this.expAddService.deleteExpense(id).subscribe(
       response => this.accUtill.showNotification("Expenditure deleted"),
       error => console.error('Error!', error)
@@ -132,5 +133,3 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
 }
-
-
