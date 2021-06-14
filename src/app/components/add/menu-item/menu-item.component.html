@@ -1,23 +1,36 @@
 <mat-menu #childMenu="matMenu" [overlapTrigger]="false">
   <span *ngFor="let expenditureType of expenditureTypes">
     <!-- Handle branch node menu items -->
-    <!-- <span *ngIf="child.masterTypes && child.masterTypes.length > 0"> -->
-    <span>
+    <span *ngIf="haveSubTypes(expenditureType); else leafNode">
       <button mat-menu-item color="primary" [matMenuTriggerFor]="menu.childMenu"
-        (click)="onSelectType(expenditureType.id)">
+        (click)="onSelectType(expenditureType.id)" (contextmenu)="onRightClick($event,expenditureType.id)">
         <span>{{expenditureType.name}}</span>
       </button>
-      <app-menu-item #menu [expenditureTypes]="expenditureType.subTypes" [parentId]="expenditureType.id">
+      <app-menu-item #menu [expenditureTypes]="expenditureType.subTypes" [isRootType]="false">
       </app-menu-item>
     </span>
     <!-- Handle leaf node menu items -->
-    <!-- <span *ngIf="!child.masterTypes || child.masterTypes.length === 0">
-      <button mat-menu-item (click)="onSelectType(child.id)">
-        <span>{{child.name}}</span>
+    <ng-template #leafNode>
+      <button mat-menu-item (click)="onSelectType(expenditureType.id)"
+        (contextmenu)="onRightClick($event,expenditureType.id)">
+        <span>{{expenditureType.name}}</span>
       </button>
-    </span> -->
+    </ng-template>
   </span>
-  <button mat-menu-item color="primary" (click)="addType(parentId)">
+  <!-- <button mat-menu-item color="primary" (click)="addType(parentId)">
     <span>+</span>
-  </button>
+  </button> -->
+</mat-menu>
+
+<!-- an hidden div is created to set the position of appearance of the menu-->
+<div style="visibility: hidden; position: fixed;" [style.left]="menuTopLeftPosition.x"
+  [style.top]="menuTopLeftPosition.y" [matMenuTriggerFor]="rightMenu"></div>
+
+<!-- standard material menu -->
+<mat-menu #rightMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item (click)="addSubType()">Add Subtype</button>
+    <button mat-menu-item *ngIf="isRootType" (click)="addType()">Add Type</button>
+    <button mat-menu-item>Delete</button>
+  </ng-template>
 </mat-menu>

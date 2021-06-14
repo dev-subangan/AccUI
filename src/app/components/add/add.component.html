@@ -20,7 +20,7 @@
           {{typeValue}}
           <mat-icon>expand_more</mat-icon>
         </button>
-        <app-menu-item #menu [expenditureTypes]="expenditureType.subTypes" [parentId]="expenditureType.id">
+        <app-menu-item #menu [expenditureTypes]="expenditureType.subTypes" [isRootType]="true">
         </app-menu-item>
         <!-- </span> -->
         <!-- Leaf node buttons here -->
