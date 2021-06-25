@@ -5,6 +5,7 @@ import { VERSION } from '@angular/material';
 import { ExpenditureType } from 'src/app/models/models';
 import { AccUtillService } from 'src/app/services/acc-utill.service';
 import { ExpAddService } from 'src/app/services/exp-add.service';
+import { SelectedDateService } from 'src/app/services/selected-date.service';
 
 
 @Component({
@@ -24,7 +25,9 @@ export class AddComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private expAddService: ExpAddService,
-    private readonly accUtill: AccUtillService) { }
+    private readonly accUtill: AccUtillService,
+    private readonly selectedDateService: SelectedDateService
+  ) { }
 
   ngOnInit(): void {
 
@@ -43,6 +46,12 @@ export class AddComponent implements OnInit {
       })
 
     this.getAllTypes();
+
+    this.selectedDateService.selectedDate$
+      .subscribe(
+        dateVal => {
+          this.inilizeForm(dateVal.toString());
+        });
 
   }
 
@@ -80,7 +89,7 @@ export class AddComponent implements OnInit {
   }
 
   updateSelectedDate() {
-    this.expAddService.updateDate(this.getDate.value);
+    this.selectedDateService.updateDate(this.getDate.value);
   }
 
   getAllTypes() {

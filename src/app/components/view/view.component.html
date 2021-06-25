@@ -15,8 +15,10 @@
       <tr *ngFor="let expense of expenses">
 
         <td *ngIf="isDayView">{{expense.type}}</td>
-        <td *ngIf="isMonthView">{{expense.key | date : 'mediumDate'}}</td>
-        <td *ngIf="isYearView || isAllView">{{expense.key}}</td>
+        <td *ngIf="isMonthView"><button class="link" (click)="selectDate(expense.key)">{{expense.key | date :
+            'mediumDate'}}</button></td>
+        <td *ngIf="isYearView || isAllView"><button class="link"
+            (click)="selectDate(expense.key)">{{expense.key}}</button></td>
 
         <td *ngIf="isDayView">{{expense.amount}}</td>
         <td *ngIf="!isDayView">{{expense.value}}</td>

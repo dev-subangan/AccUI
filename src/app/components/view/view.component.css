@@ -28,3 +28,5 @@ table{
     left: 50px;
     top: 400px;
     }
+
+    button.link { background:none;border:none; }

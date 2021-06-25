@@ -14,12 +14,6 @@ export class ExpAddService {
 
   private _refreshType$ = new Subject<void>();
 
-  private _selectedDateSource = new Subject<String>();
-  selectedDate$ = this._selectedDateSource.asObservable();
-  updateDate(dateVal) {
-    this._selectedDateSource.next(dateVal);
-  }
-
   public pushMessage = new Subject<any>();
 
   CallComponentMethod(message) {

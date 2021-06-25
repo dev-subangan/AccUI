@@ -4,6 +4,7 @@ import { ExpAddService } from 'src/app/services/exp-add.service';
 import { AccUtillService } from 'src/app/services/acc-utill.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SelectedDateService } from 'src/app/services/selected-date.service';
 //https://namitamalik.github.io/Realtime-Update-in-Angular2/
 
 @Component({
@@ -32,13 +33,14 @@ export class ViewComponent implements OnInit, OnDestroy {
   constructor(
     private readonly expAddService: ExpAddService,
     private readonly accUtill: AccUtillService,
-    private readonly changeDetectorRef: ChangeDetectorRef) { }
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly selectedDateService: SelectedDateService) { }
 
   ngOnInit() {
 
     this.loadInitialData();
 
-    this.expAddService.selectedDate$
+    this.selectedDateService.selectedDate$
       .subscribe(
         dateVal => {
           if (this.viewType === 'exp-day') {
@@ -125,6 +127,21 @@ export class ViewComponent implements OnInit, OnDestroy {
       response => this.accUtill.showNotification("Expenditure deleted"),
       error => console.error('Error!', error)
     );
+  }
+
+  selectDate(date: string) {
+    switch (this.viewType) {
+      case 'exp-month':
+        this.selectedDateService.setDate(date.substr(0, 4), date.substr(5, 2), date.substr(8, 2));
+        break;
+      case 'exp-year':
+        this.selectedDateService.setDate(date.substr(0, 4), date.substr(5, 2));
+        break;
+      case 'exp-all':
+        this.selectedDateService.setDate(date);
+        break;
+      default: break;
+    }
   }
 
   ngOnDestroy() {
